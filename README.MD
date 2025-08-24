@@ -1,15 +1,15 @@
  
-djTextsInSpace is a basic django-based web app that allows users to upload images and have them evaluated by EXIF extraction and optical character recognition. 
-It was developed as a companion program to phpMarkerBase to populate the database that web app depends on. Its use cases however go far beyond that: djTextsInSpace can easily be adapted to all scenarios where Images or other files are being collected, especially in a collaborative manner, and subsequently are to be automatically evaluated -- with optional curation by the uploading user or an admin.
+djViewsInSpace is a basic django-based web app that allows users to upload images and have them evaluated by EXIF extraction and optical character recognition. 
+It was developed as a companion program to phpMarkerBase to populate the database that web app depends on. Its use cases however go far beyond that: djViewsInSpace can easily be adapted to all scenarios where Images or other files are being collected, especially in a collaborative manner, and subsequently are to be automatically evaluated -- with optional curation by the uploading user or an admin.
 
 ## Test run
-Run 'python manage.py runserver 60000' in the djTextsInSpace directory to launch a test server. You will then find the web app at http://localhost:60000/ . Refer to django documentation on how to set up a production server.
+Run 'python manage.py runserver 60000' in the djViewsInSpace directory to launch a test server. You will then find the web app at http://localhost:60000/ . Refer to django documentation on how to set up a production server.
 
 ## Admin
 This distribution is configured for an admin called "admin" with the password "admin". You can change this in the administration interface http://localhost:60000/admin/ .
 
 ## Important files and what you can do with them
 
-djTextsInSpace/app_markerbase/templates/app_markerbase/idex.html		django template: The primary landing page. Modify according to the needs of your project.
-djTextsInSpace/app_markerbase/models.py		python: The "django model" = the setup of the database that stores the information the users collect. Also home to the "save()" method the manages the automatic evaluation of uploaded files using the following:
-djTextsInSPace/app_markerbase/utils/		directory: Here are the python scripts that do the actual evaluating.
+djViewsInSpace/app_markerbase/templates/app_markerbase/idex.html		django template: The primary landing page. Modify according to the needs of your project.
+djViewsInSpace/app_markerbase/models.py		python: The "django model" = the setup of the database that stores the information the users collect. Also home to the "save()" method the manages the automatic evaluation of uploaded files using the following:
+djViewsInSpace/app_markerbase/utils/		directory: Here are the python scripts that do the actual evaluating.

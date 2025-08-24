@@ -1,6 +1,0 @@
- 
-djTextsInSpace is a basic django-based web app that allows users to upload images and have them evaluated by EXIF extraction and optical character recognition. 
-It was developed as a companion program to phpMarkerBase to populate the database that web app depends on. Its use cases however go far beyond that: djTextsInSpace can easily be adapted to all scenarios where Images or other files are being collected, especially in a collaborative manner, and subsequently are to be automatically evaluated -- with optional curation by the uploading user or an admin.
-
-## Important files and what you can do in them
-
