@@ -1,0 +1,9 @@
+
+<h2>Edit Marker</h2>
+<img src="{{ marker.src_img.url }}" width="300">
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+

@@ -1,0 +1,16 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Site Map</h1>
+
+  <p>Upload your images for evaluation:</p>
+
+  <ul>
+    <li><a href="{% url 'marker_upload' %}">Upload</a></li>
+    <li><a href="/admin/">Administration</a></li>
+  </ul>
+
+  <p>(Here might be some more text...)</p>
+{% endblock %}
+

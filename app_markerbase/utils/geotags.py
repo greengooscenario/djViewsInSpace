@@ -1,0 +1,88 @@
+from PIL import Image
+from io import BytesIO
+import pytesseract
+
+
+def dms_to_degrees(value):
+    """
+    converts coordinates in degrees-minutes-seconds -format to decimal degrees
+    """
+    print(f"========== converting coordinate {value} := {type(value)},           component {value[0]} := {type(value[0])}") ## 
+    try:  # let's see if the coordinates are given in fractions
+        d = value[0][0] / value[0][1]
+        m = value[1][0] / value[1][1]
+        s = value[2][0] / value[2][1]
+        print(f"========== Coordinate {value} is a fraction - converted to decimal") ##
+    except Exception as e: # seems like the coordinates are given as decimal values
+        print(f"========== {e} - will now try to treat coordinate {value} as decimal") ##
+        d = value[0]
+        m = value[1]
+        s = value[2]
+    return d + (m / 60.0) + (s / 3600.0)
+
+
+def extractExif(imagefile, tag):
+    """
+    extracts EXIF data by tag
+    """
+    try:
+        imagefile.seek(0)  # Just to be sure, seek back to beginning
+        img = Image.open(imagefile)
+        exif_data = img._getexif()
+        if exif_data and tag in exif_data:
+            return exif_data[tag]
+    except Exception as e:
+        print(f"========== Error while extracting EXIF: {e}")
+        quit() ##
+    return None
+
+
+def extract_gps(imagefile):
+    try: # read file
+        imagefile.seek(0)
+        img = Image.open(imagefile)
+    except Exception as e:
+        print(f"========== Error reading file: {e}")
+        quit() ##
+    try:
+        exif = img._getexif() # extract EXIF data
+        if not exif:
+            quit() ##
+            return None, None
+        gps_info = exif.get(34853)  # extract GPSInfo-tag from EXIF block
+        if not gps_info:
+            quit() ##
+            return None, None
+        ## some diagnostic output:
+        print(f"==========================gps_info: {gps_info}")
+        print(f"=========================gps_info[1]: {gps_info[1]}")
+        print(f"=========================gps_info[2]: {gps_info[2]}")
+        print(f"========================gps_info[2][0]: {gps_info[2][0]}")
+        ##print(f"=====================gps_info[2][0][1]: {gps_info[2][0]}[1]")
+        print(f"========================gps_info[2][1]: {gps_info[2][1]}")
+        print(f"========================gps_info[2][2]: {gps_info[2][2]}")
+        print(f"=========================gps_info[3]: {gps_info[3]}")
+        print(f"=========================gps_info[4]: {gps_info[4]}")
+    except Exception as e:
+        print(f"========== Error extracting exif/GPSinfo: {e}")
+        quit() ##
+
+    try: #format geotag data
+        lat = dms_to_degrees(gps_info[2]) if 2 in gps_info else None
+        lat_ref = gps_info[1] if 1 in gps_info else 'N'
+
+        lon = dms_to_degrees(gps_info[4]) if 4 in gps_info else None
+        lon_ref = gps_info[3] if 3 in gps_info else 'E'
+
+        if lat and lat_ref == 'S':
+            lat = -lat
+        if lon and lon_ref == 'W':
+            lon = -lon
+
+        return lat, lon
+    except Exception as e:
+        print(f"========== GPS-Parsing-Error: {e}")
+        quit() ##
+        return None, None
+
+

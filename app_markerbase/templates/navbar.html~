@@ -1,0 +1,2 @@
+<a href="{% url 'marker_upload' %}">Add New</a>
+

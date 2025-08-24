@@ -1,0 +1,31 @@
+from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
+from django.shortcuts import redirect
+
+# Register your models here.
+from .models import Marker
+
+##admin.site.register(Marker)
+
+@admin.register(Marker)
+
+class MarkerAdmin(admin.ModelAdmin):
+    ##list_display = ('id', 'src_img', 'lat', 'lon') # if we want something else then __str__ displayd in the list overview
+    readonly_fields = ['preview_image']
+    ##fields = ['preview_image', 'src_img', 'lat', 'lon'] # what to display, in what order
+
+    def response_add(self, request, obj, post_url_continue=None):
+        # after uploading an image redirect to curate the data:
+        return redirect('admin:app_markerbase_marker_change', obj.pk)
+
+    def preview_image(self, obj):
+        if obj.src_img:
+            return format_html(
+                '<img src="{}" width="400" style="border:1px solid #ccc;">',
+                obj.src_img.url
+            )
+        return "(Kein Bild)"
+    preview_image.short_description = "Source Image"
+
+

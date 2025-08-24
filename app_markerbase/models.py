@@ -1,0 +1,42 @@
+from django.db import models
+from .utils.geotags import *
+from .utils.ocr import *
+
+
+class Marker(models.Model):
+    c_date = models.DateTimeField("date created", auto_now_add=True)
+    e_date = models.DateTimeField("date last edited", auto_now=True)
+    src_img = models.FileField("source image", upload_to='img/', blank=True, null=True)    
+    lat = models.FloatField("latitude", blank=True, null=True)
+    lon = models.FloatField("longitude", blank=True, null=True)
+    crs = models.CharField("coordinate reference system", max_length=255, blank=True, null=True)
+    bearing = models.FloatField("bearing", blank=True, null=True)
+    marker_text = models.CharField("text", max_length=510, blank=True, null=True)
+    remark = models.CharField(max_length=510, null = True, blank = True)
+
+
+    def save(self, *args, **kwargs):
+        print("========== Saving record...")##
+
+        if self.src_img:
+            if not (self.lat and self.lon):
+                try: # extract coordinates from EXIF info
+                    lat, lon = extract_gps(self.src_img)
+                    self.lat = lat
+                    self.lon = lon
+                except Exception as e:
+                    print(f"========== Failed to save coordinates: {e}")
+            if not self.marker_text:
+                try: # read text in image
+                    text = read_text(self.src_img)
+                    self.marker_text = text
+                except Exception as e:
+                    print(f"========== OCR on {self.src_img} failed: {e}")
+        else:
+            print("========== Note: No image given!")
+        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return f"Marker {self.id} at {self.lat}, {self.lon}, <<{self.marker_text}>>"
+

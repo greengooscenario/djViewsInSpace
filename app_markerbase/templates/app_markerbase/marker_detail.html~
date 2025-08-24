@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h2>Marker Details</h2>
+<p>Latitude: {{ marker.lat }}</p>
+<p>Longitude: {{ marker.lon }}</p>
+<p>Source Image: </p>
+<img src="{{ marker.src_img.url }}" width="300">
+
+{% endblock %}
+
