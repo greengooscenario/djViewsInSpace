@@ -11,8 +11,8 @@ This distribution is configured for an admin called "admin" with the password "a
 
 ## Important files and what you can do with them
 
-djViewsInSpace/app_markerbase/templates/app_markerbase/idex.html		django template: The primary landing page. Modify according to the needs of your project.
+*djViewsInSpace/app_markerbase/templates/app_markerbase/index.html* -- django template: The primary landing page. Modify according to the needs of your project.
 
-djViewsInSpace/app_markerbase/models.py		python: The "django model" = the setup of the database that stores the information the users collect. Also home to the "save()" method that manages the automatic evaluation of uploaded files using the following:
+*djViewsInSpace/app_markerbase/models.py* -- python: The "model" = the design of the database that stores the information the users collect. Also home to the "save()" method that manages the automatic evaluation of uploaded files using the following:
 
-djViewsInSpace/app_markerbase/utils/		directory: Here are the python scripts that do the actual evaluating.
+*djViewsInSpace/app_markerbase/utils/* -- directory: Here are the python scripts that do the actual evaluating.
