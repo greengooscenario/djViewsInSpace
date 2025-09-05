@@ -11,7 +11,7 @@ class Marker(models.Model):
     lon = models.FloatField("longitude", blank=True, null=True)
     crs = models.CharField("coordinate reference system", max_length=255, blank=True, null=True)
     bearing = models.FloatField("bearing", blank=True, null=True)
-    marker_text = models.CharField("text", max_length=510, blank=True, null=True)
+    marker_text = models.TextField("text", max_length=510, blank=True, null=True)
     remark = models.CharField(max_length=510, null = True, blank = True)
 
 

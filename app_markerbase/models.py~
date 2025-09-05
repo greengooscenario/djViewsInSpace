@@ -19,19 +19,19 @@ class Marker(models.Model):
         print("========== Saving record...")##
 
         if self.src_img:
-            try: # extract coordinates from EXIF info
-                lat, lon = extract_gps(self.src_img)
-                self.lat = lat
-                self.lon = lon
-            except Exception as e:
-                print(f"========== Failed to save coordinates: {e}")
-
-            try: # read text in image
-                text = read_text(self.src_img)
-                self.marker_text = text
-            except Exception as e:
-                print(f"========== OCR on {self.src_img} failed: {e}")
-
+            if not (self.lat and self.lon):
+                try: # extract coordinates from EXIF info
+                    lat, lon = extract_gps(self.src_img)
+                    self.lat = lat
+                    self.lon = lon
+                except Exception as e:
+                    print(f"========== Failed to save coordinates: {e}")
+            if not self.marker_text:
+                try: # read text in image
+                    text = read_text(self.src_img)
+                    self.marker_text = text
+                except Exception as e:
+                    print(f"========== OCR on {self.src_img} failed: {e}")
         else:
             print("========== Note: No image given!")
         super().save(*args, **kwargs)
