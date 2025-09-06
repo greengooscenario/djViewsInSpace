@@ -13,6 +13,7 @@ db.sqlite3-journal
 
 # vim specifics:
 *~
+*.swp
 
 
 # Byte-compiled / optimized / DLL files
